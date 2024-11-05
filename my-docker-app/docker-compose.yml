@@ -1,0 +1,24 @@
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  node:
+    image: node:14
+    container_name: node_app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3005:3002"
+    depends_on:
+      - mongo
+    command: ["npm", "start"]
+
+volumes:
+  mongo_data:
